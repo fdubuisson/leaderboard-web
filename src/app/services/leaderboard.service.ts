@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Player } from './player';
+import { Player } from '../models/player';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeaderboardService {
-  private rootUrl = 'http://localhost:8080'; // TODO: extract config
+  private rootUrl = environment.serverUrl;
 
   constructor(
     private http: HttpClient,
   ) { }
 
-  get(start: number, count: number): Observable<Player[]> { // TODO: default values
+  get(start?: number, count?: number): Observable<Player[]> {
     return this.http.get<Player[]>(`${this.rootUrl}/leaderboard?start=${start}&count=${count}`)
     // TODO: error handling
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LeaderboardService } from '../leaderboard.service';
-import { Player } from '../player';
+import { LeaderboardService } from '../../services/leaderboard.service';
+import { Player } from '../../models/player';
 
 @Component({
   selector: 'app-leaderboard',
