@@ -14,8 +14,13 @@ export class LeaderboardService {
     private http: HttpClient,
   ) { }
 
-  get(start?: number, count?: number): Observable<Player[]> {
-    return this.http.get<Player[]>(`${this.rootUrl}/leaderboard?start=${start}&count=${count}`)
+  get(page: number, size: number): Observable<Page<Player>> {
+    return this.http.get<Page<Player>>(`${this.rootUrl}/leaderboard?page=${page}&size=${size}`)
     // TODO: error handling
   }
 }
+
+export type Page<T> = {
+	content: T[];
+	totalCount: number;
+};

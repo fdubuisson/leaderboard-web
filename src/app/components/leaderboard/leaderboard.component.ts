@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Observable, of as observableOf } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { LeaderboardService } from '../../services/leaderboard.service';
 import { Player } from '../../models/player';
 
@@ -9,15 +13,33 @@ import { Player } from '../../models/player';
 })
 export class LeaderboardComponent implements OnInit {
   columns = ['rank', 'name', 'score'];
-  players: Player[] = [];
+  dataSource = new MatTableDataSource<Player>();
+  data: Player[] = [];
+  resultsLength = 0;
 
-  constructor(private leaderboardService: LeaderboardService) { }
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(public leaderboardService: LeaderboardService) { }
 
   ngOnInit(): void {
-    this.getPlayers(0, 10) // TODO: handle pagination
   }
 
-  getPlayers(start: number, count: number): void {
-    this.leaderboardService.get(start, count).subscribe(players => this.players = players);
+  ngAfterViewInit() {
+    this.paginator.page
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.leaderboardService.get(this.paginator.pageIndex, this.paginator.pageSize)
+            .pipe(catchError(() => observableOf(null)));
+        }),
+        map(data  => {
+          if (data === null) {
+            return [];
+          }
+
+          this.resultsLength = data.totalCount;
+          return data.content;
+        })
+      ).subscribe(data => this.data = data);
   }
 }
