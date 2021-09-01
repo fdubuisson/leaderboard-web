@@ -1,3 +1,5 @@
+<mat-card *ngIf="error">{{error}}</mat-card>
+
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="data">
     <ng-container matColumnDef="rank">

@@ -16,7 +16,6 @@ export class LeaderboardService {
 
   get(page: number, size: number): Observable<Page<Player>> {
     return this.http.get<Page<Player>>(`${this.rootUrl}/leaderboard?page=${page}&size=${size}`)
-    // TODO: error handling
   }
 }
 
