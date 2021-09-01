@@ -8,16 +8,16 @@ import { Player } from '../../models/player';
   styleUrls: ['./leaderboard.component.css']
 })
 export class LeaderboardComponent implements OnInit {
+  columns = ['rank', 'name', 'score'];
   players: Player[] = [];
 
   constructor(private leaderboardService: LeaderboardService) { }
 
   ngOnInit(): void {
-    this.getPlayers()
+    this.getPlayers(0, 10) // TODO: handle pagination
   }
 
-  getPlayers(): void {
-    this.leaderboardService.get(0, 10)
-        .subscribe(players => this.players = players);
+  getPlayers(start: number, count: number): void {
+    this.leaderboardService.get(start, count).subscribe(players => this.players = players);
   }
 }

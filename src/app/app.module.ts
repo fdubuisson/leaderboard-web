@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -13,6 +15,8 @@ import { LeaderboardComponent } from './components/leaderboard/leaderboard.compo
   imports: [
     BrowserModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
